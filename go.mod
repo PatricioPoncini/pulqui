@@ -1,4 +1,4 @@
-module pulqui
+module "github.com/PatricioPoncini/pulqui"
 
 go 1.25
 
