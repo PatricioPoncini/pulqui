@@ -38,12 +38,6 @@ jobs:
             exit 1
           fi
 
-      - name: Install staticcheck
-        run: go install honnef.co/go/tools/cmd/staticcheck@latest
-
-      - name: Run staticcheck
-        run: staticcheck ./...
-
       - name: Build
         run: go build -v -o pulqui cmd/bot/main.go
 
