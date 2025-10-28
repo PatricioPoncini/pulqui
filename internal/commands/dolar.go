@@ -20,7 +20,7 @@ func NewDolarCommand(sender MessageSender, dolarService *services.DolarService) 
 }
 
 func (c *DolarCommand) Name() string {
-	return "/dolar_hoy"
+	return "/dolar"
 }
 
 func (c *DolarCommand) Execute(ctx context.Context, chatID int64, args []string) error {

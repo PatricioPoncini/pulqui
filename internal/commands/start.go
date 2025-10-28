@@ -21,7 +21,7 @@ func (c *StartCommand) Execute(ctx context.Context, chatID int64, args []string)
 
 	📊 Para obtener las cotizaciones del dólar del día de hoy, usa el comando:
 	
-	/dolar_hoy
+	/dolar
 	
 	¿Necesitas ayuda? Usa /help para ver todos los comandos disponibles.`
 

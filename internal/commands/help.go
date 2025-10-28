@@ -15,5 +15,5 @@ func (h *HelpCommand) Name() string {
 }
 
 func (h *HelpCommand) Execute(ctx context.Context, chatID int64, args []string) error {
-	return h.sender.SendMessage(chatID, "Comandos disponibles:\n/start\n/dolar_hoy\n/help")
+	return h.sender.SendMessage(chatID, "Comandos disponibles:\n/start\n/dolar\n/help")
 }
