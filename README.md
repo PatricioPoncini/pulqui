@@ -8,6 +8,8 @@ Telegram bot developed in Go that provides real-time Argentine peso exchange rat
 
 Pulqui Bot is a Telegram assistant that allows you to quickly and easily check the dollar exchange rates. The bot retrieves up-to-date information for different exchange rates (official, blue, MEP, etc.) by integrating with exchange rate APIs.
 
+🔗 **Try it now: https://t.me/PulquiDolarBot**
+
 ## `✨ Features`
 
 - 💵 Check real-time dollar exchange rates
