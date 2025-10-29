@@ -3,8 +3,11 @@ package database
 import (
 	"context"
 	"fmt"
+	"io/fs"
 	"log"
 	"os"
+	"path/filepath"
+	"strings"
 
 	"github.com/jackc/pgx/v5/pgxpool"
 )
@@ -33,6 +36,11 @@ func Connect() error {
 
 	pool = dbpool
 	log.Println("Connected to PostgreSQL successfully")
+
+	if err := runMigrations(pool); err != nil {
+		return fmt.Errorf("error executing migrations: %w", err)
+	}
+
 	return nil
 }
 
@@ -44,4 +52,38 @@ func Close() {
 
 func GetPool() *pgxpool.Pool {
 	return pool
+}
+
+func runMigrations(pool *pgxpool.Pool) error {
+	migrationsDir := "internal/database/migrations"
+
+	err := filepath.WalkDir(migrationsDir, func(path string, d fs.DirEntry, err error) error {
+		if err != nil {
+			return err
+		}
+
+		if d.IsDir() || !strings.HasSuffix(d.Name(), ".sql") {
+			return nil
+		}
+
+		sqlBytes, err := os.ReadFile(path)
+		if err != nil {
+			return fmt.Errorf("error reading %s: %w", path, err)
+		}
+
+		sqlContent := string(sqlBytes)
+		_, execErr := pool.Exec(context.Background(), sqlContent)
+		if execErr != nil {
+			return fmt.Errorf("error executing %s: %w", path, execErr)
+		}
+
+		log.Printf("Migration executed: %s\n", d.Name())
+		return nil
+	})
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

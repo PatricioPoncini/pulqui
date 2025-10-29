@@ -8,6 +8,7 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 
 	"github.com/PatricioPoncini/pulqui/config"
 	"github.com/PatricioPoncini/pulqui/internal/bot"
@@ -28,6 +29,8 @@ func main() {
 	}
 	defer database.Close()
 
+	db := database.GetPool()
+
 	telegramClient := telegram.NewClient(cfg.TelegramToken)
 
 	httpClient := &http.Client{}
@@ -36,7 +39,7 @@ func main() {
 	registry := commands.NewRegistry()
 	sender := commands.NewTelegramSender(telegramClient)
 
-	registry.Register(commands.NewStartCommand(sender))
+	registry.Register(commands.NewStartCommand(sender, db))
 	registry.Register(commands.NewHelpCommand(sender))
 	registry.Register(commands.NewDolarCommand(sender, dolarService))
 
@@ -51,7 +54,22 @@ func main() {
 	go func() {
 		<-sigChan
 		log.Println("\nInterrupt signal received, stopping bot...")
-		cancel()
+
+		done := make(chan struct{})
+		go func() {
+			cancel()
+			db.Close()
+			close(done)
+		}()
+
+		select {
+		case <-done:
+			log.Println("Bot stopped")
+			os.Exit(0)
+		case <-time.After(2 * time.Second):
+			log.Println("Timeout reached, forcing shutdown.")
+			os.Exit(1)
+		}
 	}()
 
 	if err := botInstance.Start(ctx); err != nil {
