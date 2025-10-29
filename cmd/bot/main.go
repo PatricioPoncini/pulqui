@@ -12,6 +12,7 @@ import (
 	"github.com/PatricioPoncini/pulqui/config"
 	"github.com/PatricioPoncini/pulqui/internal/bot"
 	"github.com/PatricioPoncini/pulqui/internal/commands"
+	"github.com/PatricioPoncini/pulqui/internal/database"
 	"github.com/PatricioPoncini/pulqui/internal/telegram"
 	"github.com/PatricioPoncini/pulqui/pkg/services"
 )
@@ -21,6 +22,11 @@ func main() {
 	if err != nil {
 		log.Fatal("Error loading config:", err)
 	}
+
+	if err := database.Connect(); err != nil {
+		log.Fatalf("Error trying to connect to database: %v", err)
+	}
+	defer database.Close()
 
 	telegramClient := telegram.NewClient(cfg.TelegramToken)
 

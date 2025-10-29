@@ -10,6 +10,7 @@ import (
 type Config struct {
 	TelegramToken string
 	DolarApiUrl   string
+	DatabaseUrl   string
 }
 
 func Load() (*Config, error) {
@@ -20,6 +21,7 @@ func Load() (*Config, error) {
 	cfg := &Config{
 		TelegramToken: os.Getenv("TELEGRAM_TOKEN"),
 		DolarApiUrl:   os.Getenv("DOLAR_API_URL"),
+		DatabaseUrl:   os.Getenv("DATABASE_URL"),
 	}
 
 	if cfg.TelegramToken == "" {
@@ -27,6 +29,9 @@ func Load() (*Config, error) {
 	}
 	if cfg.DolarApiUrl == "" {
 		return nil, errors.New("environment variable DOLAR_API_URL is required")
+	}
+	if cfg.DatabaseUrl == "" {
+		return nil, errors.New("environment variable DATABASE_URL is required")
 	}
 
 	return cfg, nil
