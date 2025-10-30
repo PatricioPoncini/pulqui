@@ -32,11 +32,11 @@ func (c *DolarCommand) Execute(ctx context.Context, chatID int64, args []string)
 		)
 	}
 
-	message := c.formatExchangeRates(data)
+	message := c.FormatExchangeRates(data)
 	return c.sender.SendMessage(chatID, message, "Markdown")
 }
 
-func (c *DolarCommand) formatExchangeRates(data []services.DolarResponse) string {
+func (c *DolarCommand) FormatExchangeRates(data []services.DolarResponse) string {
 	message := "💵 *Cotizaciones del día*\n\n"
 
 	for _, d := range data {

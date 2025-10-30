@@ -14,6 +14,11 @@ import (
 
 var pool *pgxpool.Pool
 
+type Chat struct {
+	ID     string `db:"id"`
+	ChatId int64  `db:"chat_id"`
+}
+
 func Connect() error {
 	dbURL := os.Getenv("DATABASE_URL")
 	if dbURL == "" {
@@ -47,11 +52,35 @@ func Connect() error {
 func Close() {
 	if pool != nil {
 		pool.Close()
+		log.Println("PostgreSQL connection pool closed")
 	}
 }
 
 func GetPool() *pgxpool.Pool {
 	return pool
+}
+
+func GetChats(ctx context.Context) ([]Chat, error) {
+	rows, err := pool.Query(ctx, "SELECT id, chat_id FROM chats")
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var chats []Chat
+	for rows.Next() {
+		var c Chat
+		if err := rows.Scan(&c.ID, &c.ChatId); err != nil {
+			return nil, err
+		}
+		chats = append(chats, c)
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return chats, nil
 }
 
 func runMigrations(pool *pgxpool.Pool) error {
