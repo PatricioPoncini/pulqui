@@ -13,6 +13,7 @@ import (
 	"github.com/PatricioPoncini/pulqui/config"
 	"github.com/PatricioPoncini/pulqui/internal/bot"
 	"github.com/PatricioPoncini/pulqui/internal/commands"
+	"github.com/PatricioPoncini/pulqui/internal/cron"
 	"github.com/PatricioPoncini/pulqui/internal/database"
 	"github.com/PatricioPoncini/pulqui/internal/telegram"
 	"github.com/PatricioPoncini/pulqui/pkg/services"
@@ -45,6 +46,12 @@ func main() {
 
 	botInstance := bot.New(telegramClient, registry)
 
+	err = cron.InitCron(sender, dolarService)
+	if err != nil {
+		log.Fatalf("error initializing cron job: %v", err)
+	}
+	defer cron.StopCron()
+
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
@@ -58,7 +65,8 @@ func main() {
 		done := make(chan struct{})
 		go func() {
 			cancel()
-			db.Close()
+			database.Close()
+			cron.StopCron()
 			close(done)
 		}()
 
