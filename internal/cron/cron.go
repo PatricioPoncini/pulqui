@@ -5,9 +5,9 @@ import (
 	"log"
 	"time"
 
-	"github.com/PatricioPoncini/pulqui/internal/commands"
-	"github.com/PatricioPoncini/pulqui/internal/database"
-	"github.com/PatricioPoncini/pulqui/pkg/services"
+	"github.com/PatricioPoncini/dolarcito/internal/commands"
+	"github.com/PatricioPoncini/dolarcito/internal/database"
+	"github.com/PatricioPoncini/dolarcito/pkg/services"
 	c "github.com/robfig/cron/v3"
 )
 

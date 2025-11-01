@@ -45,7 +45,7 @@ jobs:
         run: staticcheck ./...
 
       - name: Build
-        run: go build -v -o pulqui cmd/bot/main.go
+        run: go build -v -o dolarcito_bot cmd/bot/main.go
 
       - name: Check for vulnerabilities
         run: |

@@ -10,13 +10,13 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/PatricioPoncini/pulqui/config"
-	"github.com/PatricioPoncini/pulqui/internal/bot"
-	"github.com/PatricioPoncini/pulqui/internal/commands"
-	"github.com/PatricioPoncini/pulqui/internal/cron"
-	"github.com/PatricioPoncini/pulqui/internal/database"
-	"github.com/PatricioPoncini/pulqui/internal/telegram"
-	"github.com/PatricioPoncini/pulqui/pkg/services"
+	"github.com/PatricioPoncini/dolarcito/config"
+	"github.com/PatricioPoncini/dolarcito/internal/bot"
+	"github.com/PatricioPoncini/dolarcito/internal/commands"
+	"github.com/PatricioPoncini/dolarcito/internal/cron"
+	"github.com/PatricioPoncini/dolarcito/internal/database"
+	"github.com/PatricioPoncini/dolarcito/internal/telegram"
+	"github.com/PatricioPoncini/dolarcito/pkg/services"
 )
 
 func main() {

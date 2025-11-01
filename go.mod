@@ -1,4 +1,4 @@
-module github.com/PatricioPoncini/pulqui
+module github.com/PatricioPoncini/dolarcito
 
 go 1.25
 

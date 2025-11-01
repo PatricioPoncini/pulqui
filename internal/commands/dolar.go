@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/PatricioPoncini/pulqui/pkg/services"
+	"github.com/PatricioPoncini/dolarcito/pkg/services"
 )
 
 type DolarCommand struct {

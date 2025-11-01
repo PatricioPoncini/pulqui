@@ -6,8 +6,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/PatricioPoncini/pulqui/internal/commands"
-	"github.com/PatricioPoncini/pulqui/internal/telegram"
+	"github.com/PatricioPoncini/dolarcito/internal/commands"
+	"github.com/PatricioPoncini/dolarcito/internal/telegram"
 )
 
 type Bot struct {

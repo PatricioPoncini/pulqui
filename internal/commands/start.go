@@ -21,7 +21,7 @@ func (c *StartCommand) Name() string {
 }
 
 func (c *StartCommand) Execute(ctx context.Context, chatID int64, args []string) error {
-	message := `👋 ¡Hola! Bienvenido al bot de Pulqui
+	message := `👋 ¡Hola! Bienvenido al bot Dolarcito
 
 	📊 Para obtener las cotizaciones del dólar del día de hoy, usa el comando:
 	

@@ -3,7 +3,7 @@ package commands
 import (
 	"context"
 
-	"github.com/PatricioPoncini/pulqui/internal/telegram"
+	"github.com/PatricioPoncini/dolarcito/internal/telegram"
 )
 
 type Command interface {
