@@ -1,8 +1,8 @@
-# `Pulquibot`
+# `Dolarcito Bot`
 
 Telegram bot developed in Go that provides real-time Argentine peso exchange rates through simple commands.
 
-<img src="https://i.imgur.com/I57DCcF.png" width="280" height="200">
+<img src="https://i.imgur.com/VZMJz1i.png" width="400" height="400">
 
 ---
 
