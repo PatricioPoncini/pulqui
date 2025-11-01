@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/PatricioPoncini/dolarcito/internal/commands"
+	ofs "github.com/PatricioPoncini/dolarcito/internal/offset"
 	"github.com/PatricioPoncini/dolarcito/internal/telegram"
 )
 
@@ -24,12 +25,13 @@ func New(client *telegram.Client, registry *commands.Registry) *Bot {
 
 func (b *Bot) Start(ctx context.Context) error {
 	log.Println("Bot initiated...")
-	offset := 0
+	offset := ofs.LoadOffset()
 
 	for {
 		select {
 		case <-ctx.Done():
 			log.Println("Bot stopped")
+			ofs.SaveOffset(offset)
 			return ctx.Err()
 		default:
 			updates, err := b.client.GetUpdates(offset)
@@ -39,9 +41,12 @@ func (b *Bot) Start(ctx context.Context) error {
 				continue
 			}
 
-			for _, update := range updates {
+			for i, update := range updates {
 				b.handleUpdate(ctx, update)
 				offset = update.UpdateId + 1
+				if i%5 == 0 {
+					ofs.SaveOffset(offset)
+				}
 			}
 
 			if len(updates) == 0 {
