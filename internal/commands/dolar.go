@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/PatricioPoncini/dolarcito/pkg/services"
 )
@@ -45,7 +46,17 @@ func (c *DolarCommand) FormatExchangeRates(data []services.DolarResponse) string
 	for _, d := range data {
 		message += fmt.Sprintf("🇺🇸 *USD %s*\n", d.Nombre)
 		message += fmt.Sprintf("Compra: `$%.2f`\n", d.Compra)
-		message += fmt.Sprintf("Venta: `$%.2f`\n\n", d.Venta)
+		message += fmt.Sprintf("Venta: `$%.2f`\n", d.Venta)
+
+		now := time.Now()
+		if d.FechaActualizacion.Format("2006-01-02") == now.Format("2006-01-02") {
+			message += fmt.Sprintf("_(Actualizado hoy a las %s)\n\n_", d.FechaActualizacion.Format("15:04"))
+		} else if d.FechaActualizacion.Format("2006-01-02") == now.AddDate(0, 0, -1).Format("2006-01-02") {
+			message += fmt.Sprintf("_(Actualizado ayer a las %s)\n\n_", d.FechaActualizacion.Format("15:04"))
+		} else {
+			message += fmt.Sprintf("_(Actualizado el %s a las %s)\n\n_",
+				d.FechaActualizacion.Format("02/01/2006"), d.FechaActualizacion.Format("15:04"))
+		}
 
 		switch strings.ToLower(d.Nombre) {
 		case "oficial":
