@@ -21,18 +21,20 @@ func (c *StartCommand) Name() string {
 }
 
 func (c *StartCommand) Execute(ctx context.Context, chatID int64, args []string) error {
-	message := `👋 ¡Hola! Bienvenido al bot Dolarcito
+	message := `👋 ¡Hola! Bienvenido a *Dolarcito Bot* 🇦🇷💵
 
-	📊 Para obtener las cotizaciones del dólar del día de hoy, usa el comando:
+	📊 Con este bot podés consultar las cotizaciones del dólar actualizadas en cualquier momento.
 	
-	/dolar
+	🕔 Además, todos los días a las *17:00 hs* recibirás automáticamente un mensaje con la cotización actualizada y el cierre del mercado.
 	
-	¿Necesitas ayuda? Usa /help para ver todos los comandos disponibles.`
+	Comandos disponibles:
+	/dolar — Muestra las cotizaciones del dólar del día.
+	/help — Explica todos los comandos disponibles.`
 
 	_, err := c.db.Query(ctx, "INSERT INTO chats (chat_id) VALUES ($1) ON CONFLICT DO NOTHING", strconv.Itoa(int(chatID)))
 	if err != nil {
 		return err
 	}
 
-	return c.sender.SendMessage(chatID, message)
+	return c.sender.SendMessage(chatID, message, "Markdown")
 }
